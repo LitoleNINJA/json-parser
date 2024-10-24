@@ -35,5 +35,5 @@ func main() {
 
 	jsonObject := result.(parser.JsonObject)
 
-	log.Printf("Key : name, Value : %s", jsonObject["name"])
+	log.Printf("Key : name, Value : %v", jsonObject["name"])
 }
