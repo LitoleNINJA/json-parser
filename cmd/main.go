@@ -33,7 +33,12 @@ func main() {
 		log.Fatal(err)
 	}
 
-	jsonObject := result.(parser.JsonObject)
-
-	log.Printf("Key : name, Value : %v", jsonObject["name"])
+	switch result := result.(type) {
+	case parser.JsonObject:
+		log.Printf("JSON Object: %+v", result)
+	case parser.JsonArray:
+		log.Println("JSON Array:", result)
+	default:
+		log.Fatalf("Unknown JSON structure")
+	}
 }

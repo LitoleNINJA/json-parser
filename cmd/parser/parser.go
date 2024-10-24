@@ -14,6 +14,9 @@ type JsonArray []interface{}
 var pos int = 0
 
 func Parse(tokens []tokenizer.Token) (interface{}, error) {
+	// reset pos
+	pos = 0
+
 	parsedJson, err := parse(tokens)
 	if err != nil {
 		return nil, fmt.Errorf("error while parsing : %v", err)
@@ -69,9 +72,9 @@ func parseObject(tokens []tokenizer.Token) (JsonObject, error) {
 			return nil, err
 		}
 
-		// right brace is object end
+		// check for empty object
 		if token.Type == tokenizer.RightBrace {
-			log.Printf("Parsed Object: %+v", jsonObject)
+			log.Printf("Parsed Empty Object: %+v", jsonObject)
 			return jsonObject, nil
 		}
 
@@ -107,7 +110,8 @@ func parseObject(tokens []tokenizer.Token) (JsonObject, error) {
 		}
 
 		if token.Type == tokenizer.RightBrace {
-			pos--
+			log.Printf("Parsed Object: %+v", jsonObject)
+			return jsonObject, nil
 		} else if token.Type == tokenizer.Comma {
 			continue
 		} else {
@@ -127,9 +131,9 @@ func parseArray(tokens []tokenizer.Token) (JsonArray, error) {
 			return nil, err
 		}
 
-		// rightBracket is array end
+		// check for empty array
 		if token.Type == tokenizer.RightBracket {
-			log.Printf("Parsed Array : %v", jsonArray)
+			log.Printf("Parsed Empty Array : %v", jsonArray)
 			return jsonArray, nil
 		}
 
@@ -149,7 +153,8 @@ func parseArray(tokens []tokenizer.Token) (JsonArray, error) {
 		}
 
 		if token.Type == tokenizer.RightBracket {
-			pos--
+			log.Printf("Parsed Array : %v", jsonArray)
+			return jsonArray, nil
 		} else if token.Type == tokenizer.Comma {
 			continue
 		} else {

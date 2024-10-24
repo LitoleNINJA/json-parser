@@ -43,6 +43,10 @@ func unreadRune(reader *bytes.Reader) {
 
 func Tokenize(fileData []byte) ([]Token, error) {
 
+	// reset lineNumber and column
+	lineNumber = 1
+	column = 0
+
 	var tokens []Token
 	reader := bytes.NewReader(fileData)
 

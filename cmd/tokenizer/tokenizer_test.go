@@ -56,7 +56,7 @@ func TestTokenizer(t *testing.T) {
 				{Type: LeftBracket, Value: "["},
 				{Type: Boolean, Value: "true"},
 				{Type: Comma, Value: ","},
-				{Type: Boolean, Value: "null"},
+				{Type: Null, Value: "null"},
 				{Type: Comma, Value: ","},
 				{Type: Number, Value: "42"},
 				{Type: Comma, Value: ","},
@@ -75,7 +75,7 @@ func TestTokenizer(t *testing.T) {
 				{Type: Comma, Value: ","},
 				{Type: String, Value: "isNull"},
 				{Type: Colon, Value: ":"},
-				{Type: Boolean, Value: "null"},
+				{Type: Null, Value: "null"},
 				{Type: Comma, Value: ","},
 				{Type: String, Value: "isFalse"},
 				{Type: Colon, Value: ":"},
@@ -84,25 +84,6 @@ func TestTokenizer(t *testing.T) {
 			},
 			shouldFail: false,
 		},
-		// {
-		// 	input: []byte(`{"zero": 0, "neg": -10, "float": 10.5}`),
-		// 	expected: []Token{
-		// 		{Type: LeftBrace, Value: "{"},
-		// 		{Type: String, Value: "zero"},
-		// 		{Type: Colon, Value: ":"},
-		// 		{Type: Number, Value: "0"},
-		// 		{Type: Comma, Value: ","},
-		// 		{Type: String, Value: "neg"},
-		// 		{Type: Colon, Value: ":"},
-		// 		{Type: Number, Value: "-10"},
-		// 		{Type: Comma, Value: ","},
-		// 		{Type: String, Value: "float"},
-		// 		{Type: Colon, Value: ":"},
-		// 		{Type: Number, Value: "10.5"},
-		// 		{Type: RightBrace, Value: "}"},
-		// 	},
-		// 	shouldFail: false,
-		// },
 		{
 			input: []byte(`{"   key   ": "   value   "}`),
 			expected: []Token{
@@ -115,9 +96,14 @@ func TestTokenizer(t *testing.T) {
 			shouldFail: false,
 		},
 		{
-			input:      []byte(`{"key": "value"`), // Invalid case
-			expected:   nil,
-			shouldFail: true,
+			input: []byte(`{"key": "value"`),
+			expected: []Token{
+				{Type: LeftBrace, Value: "{"},
+				{Type: String, Value: "key"},
+				{Type: Colon, Value: ":"},
+				{Type: String, Value: "value"},
+			},
+			shouldFail: false,
 		},
 		{
 			input: []byte(`{}`),
