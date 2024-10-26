@@ -185,8 +185,6 @@ func parseArray(tokens []tokenizer.Token) (JsonArray, error) {
 			return nil, fmt.Errorf("expected comma or ] after array value, got %s", token.Value)
 		}
 	}
-
-	return nil, fmt.Errorf("unexpected end of tokens while parsing array")
 }
 
 func nextToken(tokens []tokenizer.Token) (tokenizer.Token, error) {

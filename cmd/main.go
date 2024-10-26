@@ -29,6 +29,8 @@ func main() {
 		log.Printf("JSON Object: %+v", result)
 	case parser.JsonArray:
 		log.Println("JSON Array:", result)
+	case float64:
+		log.Println("JSON Number:", result)
 	default:
 		log.Fatalf("Unknown JSON structure")
 	}
