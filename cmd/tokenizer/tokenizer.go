@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"fmt"
 	"log"
+	"strings"
 	"unicode"
 )
 
@@ -36,12 +37,22 @@ func readRune(reader *bytes.Reader) (rune, error) {
 	return ch, err
 }
 
+func nextRune(reader *bytes.Reader) (rune, error) {
+	ch, err := readRune(reader)
+	if err != nil {
+		return ch, err
+	}
+	unreadRune(reader)
+
+	return ch, nil
+}
+
 func unreadRune(reader *bytes.Reader) {
 	reader.UnreadRune()
 	column--
 }
 
-func Tokenize(fileData []byte) ([]Token, error) {
+func TokenizeJSON(fileData []byte) ([]Token, error) {
 
 	// reset lineNumber and column
 	lineNumber = 1
@@ -176,7 +187,10 @@ func readString(reader *bytes.Reader) (string, error) {
 
 func readNumber(reader *bytes.Reader) (string, error) {
 	var value string
-	isNegative := ""
+	isNegative := false
+	isFloat := false
+	isExp := false
+	expSignAllowed := false
 
 	for {
 		ch, err := readRune(reader)
@@ -184,24 +198,86 @@ func readNumber(reader *bytes.Reader) (string, error) {
 			return value, fmt.Errorf("error reading rune : %v", err)
 		}
 
-		// log.Printf("Char : %c", ch)
-		if ch == ',' || unicode.IsSpace(ch) || ch == ']' {
+		// Check end of number
+		if ch == ',' || unicode.IsSpace(ch) || ch == ']' || ch == '}' {
 			unreadRune(reader)
 			log.Printf("Read number : %s", value)
 			break
-		} else if ch == '-' {
-			if isNegative != "" {
-				return value, fmt.Errorf("unexpected symbol -")
-			}
-			isNegative = "-"
-		} else if !unicode.IsDigit(ch) {
-			return value, fmt.Errorf("invalid number format")
 		}
 
-		value += string(ch)
+		// handle - sign
+		if ch == '-' {
+			// check if - sign is allowed
+			if len(value) == 0 && !isNegative {
+				isNegative = true
+				value += "-"
+			} else if isExp && expSignAllowed {
+				value += "-"
+				expSignAllowed = false
+			} else {
+				return value, fmt.Errorf("unexpected symbol '-'")
+			}
+
+			// - should be followed by digit
+			nextCh, err := nextRune(reader)
+			if err != nil || !unicode.IsDigit(nextCh) {
+				return value, fmt.Errorf("invalid number format : %s", value+string(nextCh))
+			}
+			continue
+		}
+
+		// handle .
+		if ch == '.' {
+			if isFloat || isExp {
+				return value, fmt.Errorf("unexpected symbol '.'")
+			}
+			isFloat = true
+			value += "."
+
+			// . should be followed by digit
+			nextCh, err := nextRune(reader)
+			if err != nil || !unicode.IsDigit(nextCh) {
+				return value, fmt.Errorf("invalid number format : %s", value)
+			}
+			continue
+		}
+
+		// handle e / E
+		if ch == 'e' || ch == 'E' {
+			if isExp {
+				return value, fmt.Errorf("invalid use of 'e' in number")
+			}
+			isExp = true
+			expSignAllowed = true
+			value += string(ch)
+			continue
+		}
+
+		// Reset expSignAllowed once a digit follows 'e'/'E'
+		if unicode.IsDigit(ch) {
+			// - should not be followed by 0
+			if isNegative && len(value) == 1 && ch == '0' {
+				return value, fmt.Errorf("invalid number format : %s", value+string(ch))
+			}
+
+			// reset expSign after digit
+			if expSignAllowed {
+				expSignAllowed = false
+			}
+			value += string(ch)
+			continue
+		}
+
+		// Error if it reaches here
+		return value, fmt.Errorf("invalid character in number: %c", ch)
 	}
 
-	return isNegative + value, nil
+	// number should not have leading 0
+	if len(value) > 1 && strings.HasPrefix(value, "0") {
+		return value, fmt.Errorf("invalid number format : %s", value)
+	}
+
+	return value, nil
 }
 
 func readLiteral(reader *bytes.Reader, expected string) error {

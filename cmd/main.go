@@ -5,7 +5,6 @@ import (
 	"os"
 
 	"github.com/LitoleNINJA/json-parser/cmd/parser"
-	"github.com/LitoleNINJA/json-parser/cmd/tokenizer"
 )
 
 func main() {
@@ -14,23 +13,15 @@ func main() {
 	}
 
 	fileName := os.Args[1]
-	// log.Printf("Filename : %s", fileName)
 
 	fileData, err := os.ReadFile(fileName)
 	if err != nil {
 		log.Fatalf("Error reading file : %v", err)
 	}
 
-	log.Print("Starting tokenizer ... ")
-	tokens, err := tokenizer.Tokenize(fileData)
+	result, err := parser.ParseJSON(fileData)
 	if err != nil {
-		log.Fatal(err)
-	}
-
-	log.Print("Starting parser ...")
-	result, err := parser.Parse(tokens)
-	if err != nil {
-		log.Fatal(err)
+		log.Fatalf("Error : %v", err)
 	}
 
 	switch result := result.(type) {

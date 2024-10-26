@@ -13,13 +13,25 @@ type JsonArray []interface{}
 
 var pos int = 0
 
-func Parse(tokens []tokenizer.Token) (interface{}, error) {
+func ParseJSON(fileData []byte) (interface{}, error) {
+
+	log.Print("Starting tokenizer ... ")
+	tokens, err := tokenizer.TokenizeJSON(fileData)
+	if err != nil {
+		return nil, fmt.Errorf("error while tokenizing : %v", err)
+	}
+
 	// reset pos
 	pos = 0
 
+	log.Print("Starting parser ...")
 	parsedJson, err := parse(tokens)
 	if err != nil {
 		return nil, fmt.Errorf("error while parsing : %v", err)
+	}
+
+	if pos < len(tokens) {
+		return nil, fmt.Errorf("unexpected tokens remaining after parsing")
 	}
 
 	return parsedJson, nil
@@ -40,13 +52,18 @@ func parse(tokens []tokenizer.Token) (interface{}, error) {
 		log.Printf("Parsed String : %s", token.Value)
 		return token.Value, nil
 	case tokenizer.Number:
-		intVal, err := strconv.ParseInt(token.Value, 10, 64)
-		if err != nil {
-			return nil, fmt.Errorf("error while parsing %s to int", token.Value)
+		// number of form 0...
+		if token.Value[0] == '0' && len(token.Value) > 1 && token.Value[1] != '.' && token.Value[1] != 'e' && token.Value[1] != 'E' {
+			return nil, fmt.Errorf("invalid number %s", token.Value)
 		}
 
-		log.Printf("Parsed Number : %d", intVal)
-		return intVal, nil
+		floarVal, err := strconv.ParseFloat(token.Value, 64)
+		if err != nil {
+			return nil, fmt.Errorf("error while parsing %s to float", token.Value)
+		}
+
+		log.Printf("Parsed Number : %f", floarVal)
+		return floarVal, nil
 	case tokenizer.Boolean:
 		boolVal, err := strconv.ParseBool(token.Value)
 		if err != nil {
@@ -74,6 +91,10 @@ func parseObject(tokens []tokenizer.Token) (JsonObject, error) {
 
 		// check for empty object
 		if token.Type == tokenizer.RightBrace {
+			// object not empty
+			if len(jsonObject) != 0 {
+				return jsonObject, fmt.Errorf("unexpected , at end of object")
+			}
 			log.Printf("Parsed Empty Object: %+v", jsonObject)
 			return jsonObject, nil
 		}
@@ -90,9 +111,8 @@ func parseObject(tokens []tokenizer.Token) (JsonObject, error) {
 		if err != nil {
 			return nil, err
 		}
-
 		if token.Type != tokenizer.Colon {
-			return nil, fmt.Errorf("expected colon after key, got %s", token.Type)
+			return nil, fmt.Errorf("expected colon after key, got %s", token.Value)
 		}
 
 		// read value recursively
@@ -115,7 +135,7 @@ func parseObject(tokens []tokenizer.Token) (JsonObject, error) {
 		} else if token.Type == tokenizer.Comma {
 			continue
 		} else {
-			return nil, fmt.Errorf("expected comma after object value, got %s", token.Type)
+			return nil, fmt.Errorf("expected comma after object value, got %s", token.Value)
 		}
 	}
 
@@ -124,8 +144,8 @@ func parseObject(tokens []tokenizer.Token) (JsonObject, error) {
 
 func parseArray(tokens []tokenizer.Token) (JsonArray, error) {
 	jsonArray := make(JsonArray, 0)
-
-	for pos < len(tokens) {
+	log.Print("Array parse ...")
+	for {
 		token, err := nextToken(tokens)
 		if err != nil {
 			return nil, err
@@ -133,6 +153,10 @@ func parseArray(tokens []tokenizer.Token) (JsonArray, error) {
 
 		// check for empty array
 		if token.Type == tokenizer.RightBracket {
+			// array not empty
+			if len(jsonArray) != 0 {
+				return jsonArray, fmt.Errorf("unexpected , at end of array")
+			}
 			log.Printf("Parsed Empty Array : %v", jsonArray)
 			return jsonArray, nil
 		}
@@ -158,7 +182,7 @@ func parseArray(tokens []tokenizer.Token) (JsonArray, error) {
 		} else if token.Type == tokenizer.Comma {
 			continue
 		} else {
-			return nil, fmt.Errorf("expected comma or ] after array value, got %s", token.Type)
+			return nil, fmt.Errorf("expected comma or ] after array value, got %s", token.Value)
 		}
 	}
 

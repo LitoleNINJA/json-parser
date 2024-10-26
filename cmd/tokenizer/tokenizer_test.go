@@ -122,7 +122,7 @@ func TestTokenizer(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(string(tc.input), func(t *testing.T) {
-			tokens, err := Tokenize(tc.input)
+			tokens, err := TokenizeJSON(tc.input)
 
 			if tc.shouldFail {
 				if err == nil {
