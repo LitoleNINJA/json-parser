@@ -369,6 +369,23 @@ func readNumber(reader *bytes.Reader) (string, error) {
 			continue
 		}
 
+		// handle + sign
+		if ch == '+' {
+			if isExp && expSignAllowed {
+				value.WriteString("+")
+				expSignAllowed = false
+			} else {
+				return "", customError.NewError(fmt.Errorf("unexpected symbol '+'"))
+			}
+
+			// + should be followed by digit
+			nextCh, err := nextRune(reader)
+			if err != nil || !unicode.IsDigit(nextCh) {
+				return "", customError.NewError(fmt.Errorf("invalid number format : %s", value.String()+string(ch)))
+			}
+			continue
+		}
+
 		// Reset expSignAllowed once a digit follows 'e'/'E'
 		if unicode.IsDigit(ch) {
 			// reset expSign after digit
@@ -378,6 +395,8 @@ func readNumber(reader *bytes.Reader) (string, error) {
 
 			value.WriteRune(ch)
 			continue
+		} else {
+			return "", customError.NewError(fmt.Errorf("unexpected symbol '%c'", ch))
 		}
 	}
 

@@ -11,16 +11,16 @@ import (
 
 func TestJsonParser(t *testing.T) {
 	testDir := "../../test/JSONTestSuite/test_parsing"
-	// files, err := os.ReadDir(testDir)
-	// if err != nil {
-	// 	t.Fatalf("Failed to read test directory: %v", err)
-	// }
+	files, err := os.ReadDir(testDir)
+	if err != nil {
+		t.Fatalf("Failed to read test directory: %v", err)
+	}
 
-	fileNames := []string{"y_number_0e+1.json", "y_number_0e1.json", "y_number_double_close_to_zero.json"}
+	// fileNames := []string{}
 
-	for _, fileName := range fileNames {
-		// for _, file := range files {
-		// fileName := file.Name()
+	// for _, fileName := range fileNames {
+	for _, file := range files {
+		fileName := file.Name()
 		filePath := filepath.Join(testDir, fileName)
 		isAcceptedTest := true
 

@@ -52,11 +52,6 @@ func parse(tokens []tokenizer.Token) (interface{}, error) {
 		log.Printf("Parsed String : %s", token.Value)
 		return token.Value, nil
 	case tokenizer.Number:
-		// number of form 0...
-		if token.Value[0] == '0' && len(token.Value) > 1 && token.Value[1] != '.' && token.Value[1] != 'e' && token.Value[1] != 'E' {
-			return nil, fmt.Errorf("invalid number %s", token.Value)
-		}
-
 		floarVal, err := strconv.ParseFloat(token.Value, 64)
 		if err != nil {
 			return nil, fmt.Errorf("error while parsing %s to float", token.Value)
