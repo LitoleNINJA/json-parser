@@ -38,7 +38,8 @@ func TestJsonParser(t *testing.T) {
 				return
 			}
 
-			_, err = parser.ParseJSON(data)
+			var result any
+			err = parser.ParseJSON(data, &result)
 			if err == nil && !isAcceptedTest {
 				t.Errorf("Expected failure for %s | Testcase : %s", fileName, string(data))
 			} else if err != nil && isAcceptedTest {
