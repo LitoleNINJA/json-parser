@@ -6,6 +6,7 @@ import (
 	"reflect"
 	"strconv"
 
+	"github.com/LitoleNINJA/json-parser/cmd/customError"
 	"github.com/LitoleNINJA/json-parser/cmd/tokenizer"
 )
 
@@ -16,13 +17,13 @@ func ParseJSON(fileData []byte, result any) error {
 	// Get reflect.Value of the result pointer
 	resultValue := reflect.ValueOf(result)
 	if result == nil || resultValue.Kind() != reflect.Ptr {
-		return fmt.Errorf("result must be a pointer")
+		return customError.NewError(fmt.Errorf("result must be a pointer"))
 	}
 
 	log.Print("Starting tokenizer ... ")
 	tokens, err := tokenizer.TokenizeJSON(fileData)
 	if err != nil {
-		return fmt.Errorf("error while tokenizing : %v", err)
+		return customError.NewError(fmt.Errorf("error while tokenizing : %v", err))
 	}
 
 	// reset pos
@@ -31,16 +32,16 @@ func ParseJSON(fileData []byte, result any) error {
 	log.Print("Starting parser ...")
 	parsedJson, err := parse(tokens)
 	if err != nil {
-		return fmt.Errorf("error while parsing : %v", err)
+		return customError.NewError(fmt.Errorf("error while parsing : %v", err))
 	}
 
 	if pos < len(tokens) {
-		return fmt.Errorf("unexpected tokens remaining after parsing")
+		return customError.NewError(fmt.Errorf("unexpected tokens remaining after parsing"))
 	}
 
 	// Convert and assign the parsed value to the result
 	if err := assignParsedValue(resultValue.Elem(), parsedJson); err != nil {
-		return fmt.Errorf("error assigning parsed value: %v", err)
+		return customError.NewError(fmt.Errorf("error assigning parsed value: %v", err))
 	}
 
 	return nil
