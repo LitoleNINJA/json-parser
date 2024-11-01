@@ -3,16 +3,22 @@ package encoder
 import (
 	"bytes"
 	"fmt"
+	"io"
 	"log"
 	"math"
 	"reflect"
 	"strconv"
+	"strings"
 
 	"github.com/LitoleNINJA/json-parser/cmd/customError"
 )
 
-func EncodeJSON(jsonData interface{}) ([]byte, error) {
-	encodedJson, err := encode(reflect.ValueOf(jsonData))
+func EncodeJSON(jsonData interface{}, showLogs bool) ([]byte, error) {
+	if !showLogs {
+		log.SetOutput(io.Discard)
+	}
+
+	encodedJson, err := encode(reflect.ValueOf(jsonData), "")
 	if err != nil {
 		return nil, customError.NewError(fmt.Errorf("error while encoding JSON : %v", err))
 	}
@@ -20,7 +26,7 @@ func EncodeJSON(jsonData interface{}) ([]byte, error) {
 	return encodedJson, err
 }
 
-func encode(value reflect.Value) ([]byte, error) {
+func encode(value reflect.Value, indent string) ([]byte, error) {
 	// Handle nil values
 	if !value.IsValid() {
 		return []byte("null"), nil
@@ -28,9 +34,9 @@ func encode(value reflect.Value) ([]byte, error) {
 
 	switch value.Kind() {
 	case reflect.Map:
-		return encodeMap(&value)
+		return encodeMap(&value, indent)
 	case reflect.Interface:
-		return encode(value.Elem())
+		return encode(value.Elem(), indent)
 	case reflect.Array, reflect.Slice:
 		return encodeArray(&value)
 	case reflect.String:
@@ -44,34 +50,36 @@ func encode(value reflect.Value) ([]byte, error) {
 	}
 }
 
-func encodeMap(value *reflect.Value) ([]byte, error) {
+func encodeMap(value *reflect.Value, indent string) ([]byte, error) {
 	var mapEncoding bytes.Buffer
 
-	mapEncoding.WriteByte('{')
+	mapEncoding.Write([]byte("{\n"))
+	indent += "\t"
 	for i, k := range value.MapKeys() {
 		if i > 0 {
-			mapEncoding.WriteByte(',')
+			mapEncoding.Write([]byte(",\n"))
 		}
 
 		v := value.MapIndex(k)
 		// log.Printf("Key: %s, Value: %s", k, v)
 
-		encodedKey, err := encode(k)
+		encodedKey, err := encode(k, indent)
 		if err != nil {
 			return nil, customError.NewError(fmt.Errorf("error while encoding map key '%s' : %v", k, err))
 		}
 
-		encodedValue, err := encode(v)
+		encodedValue, err := encode(v, indent)
 		if err != nil {
 			return nil, customError.NewError(fmt.Errorf("error while encoding map value '%s' : %v", k, err))
 		}
 
+		mapEncoding.Write([]byte(indent))
 		mapEncoding.Write(encodedKey)
-		mapEncoding.WriteByte(':')
+		mapEncoding.Write([]byte(": "))
 		mapEncoding.Write(encodedValue)
 	}
 
-	mapEncoding.WriteByte('}')
+	mapEncoding.Write([]byte("\n" + strings.TrimSuffix(indent, "\t") + "}"))
 
 	log.Printf("Encoded Map: %s", mapEncoding.Bytes())
 	return mapEncoding.Bytes(), nil
@@ -83,10 +91,10 @@ func encodeArray(value *reflect.Value) ([]byte, error) {
 	arrayEncoding.WriteByte('[')
 	for i := 0; i < value.Len(); i++ {
 		if i > 0 {
-			arrayEncoding.WriteByte(',')
+			arrayEncoding.Write([]byte(", "))
 		}
 
-		encodedValue, err := encode(value.Index(i))
+		encodedValue, err := encode(value.Index(i), "")
 		if err != nil {
 			return nil, customError.NewError(fmt.Errorf("error while encoding array value '%s' : %v", value.Index(i), err))
 		}

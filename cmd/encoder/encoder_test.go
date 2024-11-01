@@ -40,13 +40,56 @@ func TestJSONEncoder(t *testing.T) {
 
 			var result any
 			// decode and encode
-			parserErr := parser.ParseJSON(data, &result)
-			_, encoderErr := encoder.EncodeJSON(result)
+			parserErr := parser.ParseJSON(data, &result, true)
+			_, encoderErr := encoder.EncodeJSON(result, true)
 
 			if isAcceptedTest && (parserErr != nil || encoderErr != nil) {
 				t.Errorf("Expected success for Testcase : %s\nParseErr: %v, EncodeErr: %v", string(data), parserErr, encoderErr)
 			} else if !isAcceptedTest && parserErr == nil && encoderErr == nil {
 				t.Errorf("Expected failure for Testcase : %s", string(data))
+			}
+		})
+	}
+}
+
+func BenchmarkJSONEncoder(b *testing.B) {
+	testDir := "../../test/JSONTestSuite/test_parsing"
+	files, err := os.ReadDir(testDir)
+	if err != nil {
+		b.Fatalf("Failed to read test directory: %v", err)
+	}
+
+	// fileNames := []string{}
+
+	// for _, fileName := range fileNames {
+	for _, file := range files {
+		fileName := file.Name()
+		filePath := filepath.Join(testDir, fileName)
+		isAcceptedTest := true
+
+		if strings.HasPrefix(fileName, "y_") {
+			isAcceptedTest = true
+		} else if strings.HasPrefix(fileName, "n_") {
+			isAcceptedTest = false
+		}
+
+		b.Run(fileName, func(b *testing.B) {
+			data, err := os.ReadFile(filePath)
+			if err != nil {
+				b.Errorf("Failed to read file %s: %v", fileName, err)
+				return
+			}
+
+			var result any
+			// decode and encode
+			b.ResetTimer()
+			parserErr := parser.ParseJSON(data, &result, false)
+			_, encoderErr := encoder.EncodeJSON(result, false)
+
+			if isAcceptedTest && (parserErr != nil || encoderErr != nil) {
+				b.Errorf("Expected success for Testcase : %s\nParseErr: %v, EncodeErr: %v", string(data), parserErr, encoderErr)
+			} else if !isAcceptedTest && parserErr == nil && encoderErr == nil {
+				b.Errorf("Expected failure for Testcase : %s", string(data))
 			}
 		})
 	}

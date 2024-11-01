@@ -22,15 +22,16 @@ func main() {
 
 	// decode JSON
 	var result interface{}
-	err = parser.ParseJSON(fileData, &result)
+	err = parser.ParseJSON(fileData, &result, false)
 	if err != nil {
 		log.Fatalf("Error : %v", err)
 	}
 
 	// you can cast the returned interface into any of the below type if compatible
+	log.SetOutput(os.Stdout)
 	switch result := result.(type) {
 	case map[string]interface{}:
-		log.Printf("JSON Object: %+v", result)
+		log.Printf("JSON Object:%+v", result)
 	case []interface{}:
 		log.Println("JSON Array:", result)
 	case float64:
@@ -44,14 +45,15 @@ func main() {
 	}
 
 	// encode JSON
-	json, err := encoder.EncodeJSON(result)
+	json, err := encoder.EncodeJSON(result, false)
 	if err != nil {
 		log.Fatalf("Error : %v", err)
 	}
 
-	log.Printf("Encoded JSON : %s", json)
+	log.SetOutput(os.Stdout)
+	log.Printf("Encoded JSON : \n%s", json)
 
-	err = writeToFile("test-encode.json", json)
+	err = writeToFile("./test/test-encode.json", json)
 	if err != nil {
 		log.Fatalf("Error Writing to file: %v", err)
 	}

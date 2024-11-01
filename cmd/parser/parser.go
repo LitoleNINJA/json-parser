@@ -2,6 +2,7 @@ package parser
 
 import (
 	"fmt"
+	"io"
 	"log"
 	"reflect"
 	"strconv"
@@ -12,7 +13,10 @@ import (
 
 var pos int = 0
 
-func ParseJSON(fileData []byte, result any) error {
+func ParseJSON(fileData []byte, result any, showLogs bool) error {
+	if !showLogs {
+		log.SetOutput(io.Discard)
+	}
 
 	// Get reflect.Value of the result pointer
 	resultValue := reflect.ValueOf(result)
