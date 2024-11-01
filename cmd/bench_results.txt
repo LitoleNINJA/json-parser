@@ -1,0 +1,497 @@
+System Information:
+Go Version: go1.23.2
+OS/Arch: linux/amd64
+CPU Cores: 8
+
+
+Benchmark Run: 2024-11-01 15:13:55
+
+
+==================== Benchmark Summary ====================
+-------------------------------------------------------------
+File: y_string_nbsp_uescaped.json (0.02 KB)
+Custom Implementation: 9.392µs
+Standard Library:     16.286µs
+Performance:          42.33% faster than stdlib
+-------------------------------------------------------------
+File: y_string_nonCharacterInUTF-8_U+10FFFF.json (0.01 KB)
+Custom Implementation: 8.157µs
+Standard Library:     28.519µs
+Performance:          71.40% faster than stdlib
+-------------------------------------------------------------
+File: y_string_null_escape.json (0.01 KB)
+Custom Implementation: 14.153µs
+Standard Library:     16.811µs
+Performance:          15.81% faster than stdlib
+-------------------------------------------------------------
+File: y_string_space.json (0.00 KB)
+Custom Implementation: 6.385µs
+Standard Library:     13.231µs
+Performance:          51.74% faster than stdlib
+-------------------------------------------------------------
+File: y_number_double_close_to_zero.json (0.08 KB)
+Custom Implementation: 25.568µs
+Standard Library:     35.248µs
+Performance:          27.46% faster than stdlib
+-------------------------------------------------------------
+File: y_number_real_capital_e_pos_exp.json (0.01 KB)
+Custom Implementation: 13.825µs
+Standard Library:     20.435µs
+Performance:          32.35% faster than stdlib
+-------------------------------------------------------------
+File: y_number_real_neg_exp.json (0.01 KB)
+Custom Implementation: 17.54µs
+Standard Library:     27.895µs
+Performance:          37.12% faster than stdlib
+-------------------------------------------------------------
+File: y_object_with_newlines.json (0.01 KB)
+Custom Implementation: 15.133µs
+Standard Library:     38.907µs
+Performance:          61.10% faster than stdlib
+-------------------------------------------------------------
+File: y_string_unicode_U+2064_invisible_plus.json (0.01 KB)
+Custom Implementation: 10.566µs
+Standard Library:     26.879µs
+Performance:          60.69% faster than stdlib
+-------------------------------------------------------------
+File: y_structure_lonely_string.json (0.00 KB)
+Custom Implementation: 7.658µs
+Standard Library:     13.6µs
+Performance:          43.69% faster than stdlib
+-------------------------------------------------------------
+File: y_object_empty_key.json (0.01 KB)
+Custom Implementation: 19.113µs
+Standard Library:     28.141µs
+Performance:          32.08% faster than stdlib
+-------------------------------------------------------------
+File: y_string_one-byte-utf-8.json (0.01 KB)
+Custom Implementation: 8.298µs
+Standard Library:     13.112µs
+Performance:          36.71% faster than stdlib
+-------------------------------------------------------------
+File: y_string_uEscape.json (0.03 KB)
+Custom Implementation: 12.524µs
+Standard Library:     17.807µs
+Performance:          29.67% faster than stdlib
+-------------------------------------------------------------
+File: y_array_heterogeneous.json (0.02 KB)
+Custom Implementation: 40.508µs
+Standard Library:     62.271µs
+Performance:          34.95% faster than stdlib
+-------------------------------------------------------------
+File: y_number.json (0.01 KB)
+Custom Implementation: 25.256µs
+Standard Library:     39.049µs
+Performance:          35.32% faster than stdlib
+-------------------------------------------------------------
+File: y_number_minus_zero.json (0.00 KB)
+Custom Implementation: 25.132µs
+Standard Library:     36.652µs
+Performance:          31.43% faster than stdlib
+-------------------------------------------------------------
+File: y_number_simple_real.json (0.01 KB)
+Custom Implementation: 8.89µs
+Standard Library:     13.398µs
+Performance:          33.65% faster than stdlib
+-------------------------------------------------------------
+File: y_object_empty.json (0.00 KB)
+Custom Implementation: 6.294µs
+Standard Library:     10.021µs
+Performance:          37.19% faster than stdlib
+-------------------------------------------------------------
+File: y_string_in_array.json (0.01 KB)
+Custom Implementation: 9.056µs
+Standard Library:     26.517µs
+Performance:          65.85% faster than stdlib
+-------------------------------------------------------------
+File: y_string_pi.json (0.01 KB)
+Custom Implementation: 8.767µs
+Standard Library:     17.384µs
+Performance:          49.57% faster than stdlib
+-------------------------------------------------------------
+File: y_string_two-byte-utf-8.json (0.01 KB)
+Custom Implementation: 17.723µs
+Standard Library:     21.299µs
+Performance:          16.79% faster than stdlib
+-------------------------------------------------------------
+File: y_structure_lonely_false.json (0.00 KB)
+Custom Implementation: 9.443µs
+Standard Library:     29.166µs
+Performance:          67.62% faster than stdlib
+-------------------------------------------------------------
+File: y_number_real_pos_exponent.json (0.01 KB)
+Custom Implementation: 16.659µs
+Standard Library:     25.824µs
+Performance:          35.49% faster than stdlib
+-------------------------------------------------------------
+File: y_string_accepted_surrogate_pairs.json (0.03 KB)
+Custom Implementation: 23.896µs
+Standard Library:     39.671µs
+Performance:          39.76% faster than stdlib
+-------------------------------------------------------------
+File: y_string_backslash_and_u_escaped_zero.json (0.01 KB)
+Custom Implementation: 10.813µs
+Standard Library:     17.593µs
+Performance:          38.54% faster than stdlib
+-------------------------------------------------------------
+File: y_string_last_surrogates_1_and_2.json (0.02 KB)
+Custom Implementation: 9.023µs
+Standard Library:     13.271µs
+Performance:          32.01% faster than stdlib
+-------------------------------------------------------------
+File: y_number_int_with_exp.json (0.01 KB)
+Custom Implementation: 22.665µs
+Standard Library:     36.2µs
+Performance:          37.39% faster than stdlib
+-------------------------------------------------------------
+File: y_object_escaped_null_in_key.json (0.02 KB)
+Custom Implementation: 25.173µs
+Standard Library:     23.359µs
+Performance:          7.77% slower than stdlib
+-------------------------------------------------------------
+File: y_string_unescaped_char_delete.json (0.00 KB)
+Custom Implementation: 16.584µs
+Standard Library:     19.114µs
+Performance:          13.24% faster than stdlib
+-------------------------------------------------------------
+File: y_number_real_exponent.json (0.01 KB)
+Custom Implementation: 14.533µs
+Standard Library:     25.127µs
+Performance:          42.16% faster than stdlib
+-------------------------------------------------------------
+File: y_object.json (0.03 KB)
+Custom Implementation: 11.835µs
+Standard Library:     21.662µs
+Performance:          45.37% faster than stdlib
+-------------------------------------------------------------
+File: y_string_in_array_with_leading_space.json (0.01 KB)
+Custom Implementation: 9.798µs
+Standard Library:     15.417µs
+Performance:          36.45% faster than stdlib
+-------------------------------------------------------------
+File: y_string_unicode_escaped_double_quote.json (0.01 KB)
+Custom Implementation: 20.699µs
+Standard Library:     25.76µs
+Performance:          19.65% faster than stdlib
+-------------------------------------------------------------
+File: y_array_arraysWithSpaces.json (0.01 KB)
+Custom Implementation: 192.634µs
+Standard Library:     80.807µs
+Performance:          138.39% slower than stdlib
+-------------------------------------------------------------
+File: y_number_0e1.json (0.00 KB)
+Custom Implementation: 24.309µs
+Standard Library:     34.378µs
+Performance:          29.29% faster than stdlib
+-------------------------------------------------------------
+File: y_string_reservedCharacterInUTF-8_U+1BFFF.json (0.01 KB)
+Custom Implementation: 7.998µs
+Standard Library:     13.955µs
+Performance:          42.69% faster than stdlib
+-------------------------------------------------------------
+File: y_string_unicode_U+FFFE_nonchar.json (0.01 KB)
+Custom Implementation: 17.666µs
+Standard Library:     21.764µs
+Performance:          18.83% faster than stdlib
+-------------------------------------------------------------
+File: y_string_double_escape_n.json (0.01 KB)
+Custom Implementation: 10.791µs
+Standard Library:     20.239µs
+Performance:          46.68% faster than stdlib
+-------------------------------------------------------------
+File: y_string_escaped_control_character.json (0.01 KB)
+Custom Implementation: 13.824µs
+Standard Library:     15.084µs
+Performance:          8.35% faster than stdlib
+-------------------------------------------------------------
+File: y_string_unicodeEscapedBackslash.json (0.01 KB)
+Custom Implementation: 26.364µs
+Standard Library:     42.399µs
+Performance:          37.82% faster than stdlib
+-------------------------------------------------------------
+File: y_string_unicode_U+FDD0_nonchar.json (0.01 KB)
+Custom Implementation: 34.757µs
+Standard Library:     28.117µs
+Performance:          23.62% slower than stdlib
+-------------------------------------------------------------
+File: y_array_null.json (0.01 KB)
+Custom Implementation: 50.408µs
+Standard Library:     32.53µs
+Performance:          54.96% slower than stdlib
+-------------------------------------------------------------
+File: y_object_basic.json (0.01 KB)
+Custom Implementation: 9.697µs
+Standard Library:     23.9µs
+Performance:          59.43% faster than stdlib
+-------------------------------------------------------------
+File: y_string_accepted_surrogate_pair.json (0.02 KB)
+Custom Implementation: 11.446µs
+Standard Library:     19.156µs
+Performance:          40.25% faster than stdlib
+-------------------------------------------------------------
+File: y_string_double_escape_a.json (0.01 KB)
+Custom Implementation: 12.72µs
+Standard Library:     26.11µs
+Performance:          51.28% faster than stdlib
+-------------------------------------------------------------
+File: y_structure_trailing_newline.json (0.01 KB)
+Custom Implementation: 7.31µs
+Standard Library:     16.63µs
+Performance:          56.04% faster than stdlib
+-------------------------------------------------------------
+File: y_string_unicode_U+10FFFE_nonchar.json (0.02 KB)
+Custom Implementation: 9.883µs
+Standard Library:     15.411µs
+Performance:          35.87% faster than stdlib
+-------------------------------------------------------------
+File: y_number_0e+1.json (0.01 KB)
+Custom Implementation: 25.428µs
+Standard Library:     33.157µs
+Performance:          23.31% faster than stdlib
+-------------------------------------------------------------
+File: y_object_string_unicode.json (0.11 KB)
+Custom Implementation: 14.647µs
+Standard Library:     16.938µs
+Performance:          13.53% faster than stdlib
+-------------------------------------------------------------
+File: y_string_1_2_3_bytes_UTF-8_sequences.json (0.02 KB)
+Custom Implementation: 12.5µs
+Standard Library:     24.227µs
+Performance:          48.40% faster than stdlib
+-------------------------------------------------------------
+File: y_string_unicode.json (0.01 KB)
+Custom Implementation: 19.718µs
+Standard Library:     27.04µs
+Performance:          27.08% faster than stdlib
+-------------------------------------------------------------
+File: y_number_negative_one.json (0.00 KB)
+Custom Implementation: 20.915µs
+Standard Library:     27.88µs
+Performance:          24.98% faster than stdlib
+-------------------------------------------------------------
+File: y_number_real_capital_e_neg_exp.json (0.01 KB)
+Custom Implementation: 30.011µs
+Standard Library:     30.958µs
+Performance:          3.06% faster than stdlib
+-------------------------------------------------------------
+File: y_object_long_strings.json (0.11 KB)
+Custom Implementation: 13.525µs
+Standard Library:     43.873µs
+Performance:          69.17% faster than stdlib
+-------------------------------------------------------------
+File: y_string_nonCharacterInUTF-8_U+FFFF.json (0.01 KB)
+Custom Implementation: 9.592µs
+Standard Library:     17.001µs
+Performance:          43.58% faster than stdlib
+-------------------------------------------------------------
+File: y_array_with_1_and_newline.json (0.00 KB)
+Custom Implementation: 75.439µs
+Standard Library:     63.244µs
+Performance:          19.28% slower than stdlib
+-------------------------------------------------------------
+File: y_array_with_leading_space.json (0.00 KB)
+Custom Implementation: 23.926µs
+Standard Library:     61.561µs
+Performance:          61.13% faster than stdlib
+-------------------------------------------------------------
+File: y_array_with_several_null.json (0.02 KB)
+Custom Implementation: 31.965µs
+Standard Library:     40.493µs
+Performance:          21.06% faster than stdlib
+-------------------------------------------------------------
+File: y_number_negative_int.json (0.01 KB)
+Custom Implementation: 22.952µs
+Standard Library:     24.497µs
+Performance:          6.31% faster than stdlib
+-------------------------------------------------------------
+File: y_string_surrogates_U+1D11E_MUSICAL_SYMBOL_G_CLEF.json (0.02 KB)
+Custom Implementation: 12.389µs
+Standard Library:     23.958µs
+Performance:          48.29% faster than stdlib
+-------------------------------------------------------------
+File: y_string_u+2029_par_sep.json (0.01 KB)
+Custom Implementation: 16.329µs
+Standard Library:     28.88µs
+Performance:          43.46% faster than stdlib
+-------------------------------------------------------------
+File: y_string_escaped_noncharacter.json (0.01 KB)
+Custom Implementation: 8.936µs
+Standard Library:     14.512µs
+Performance:          38.42% faster than stdlib
+-------------------------------------------------------------
+File: y_string_simple_ascii.json (0.01 KB)
+Custom Implementation: 7.599µs
+Standard Library:     12.28µs
+Performance:          38.12% faster than stdlib
+-------------------------------------------------------------
+File: y_structure_string_empty.json (0.00 KB)
+Custom Implementation: 6.968µs
+Standard Library:     13.419µs
+Performance:          48.07% faster than stdlib
+-------------------------------------------------------------
+File: y_structure_true_in_array.json (0.01 KB)
+Custom Implementation: 8.971µs
+Standard Library:     15.191µs
+Performance:          40.95% faster than stdlib
+-------------------------------------------------------------
+File: y_array_false.json (0.01 KB)
+Custom Implementation: 22.753µs
+Standard Library:     49.3µs
+Performance:          53.85% faster than stdlib
+-------------------------------------------------------------
+File: y_object_extreme_numbers.json (0.03 KB)
+Custom Implementation: 13.671µs
+Standard Library:     23.598µs
+Performance:          42.07% faster than stdlib
+-------------------------------------------------------------
+File: y_string_unicode_U+200B_ZERO_WIDTH_SPACE.json (0.01 KB)
+Custom Implementation: 10.318µs
+Standard Library:     16.098µs
+Performance:          35.91% faster than stdlib
+-------------------------------------------------------------
+File: y_structure_lonely_null.json (0.00 KB)
+Custom Implementation: 12.142µs
+Standard Library:     11.714µs
+Performance:          3.65% slower than stdlib
+-------------------------------------------------------------
+File: y_array_ending_with_newline.json (0.00 KB)
+Custom Implementation: 39.326µs
+Standard Library:     37.695µs
+Performance:          4.33% slower than stdlib
+-------------------------------------------------------------
+File: y_number_real_fraction_exponent.json (0.01 KB)
+Custom Implementation: 16.08µs
+Standard Library:     19.326µs
+Performance:          16.80% faster than stdlib
+-------------------------------------------------------------
+File: y_object_simple.json (0.01 KB)
+Custom Implementation: 10.129µs
+Standard Library:     14.798µs
+Performance:          31.55% faster than stdlib
+-------------------------------------------------------------
+File: y_structure_whitespace_array.json (0.00 KB)
+Custom Implementation: 7.037µs
+Standard Library:     15.677µs
+Performance:          55.11% faster than stdlib
+-------------------------------------------------------------
+File: y_structure_lonely_true.json (0.00 KB)
+Custom Implementation: 5.565µs
+Standard Library:     22.397µs
+Performance:          75.15% faster than stdlib
+-------------------------------------------------------------
+File: y_number_negative_zero.json (0.00 KB)
+Custom Implementation: 22.209µs
+Standard Library:     27.593µs
+Performance:          19.51% faster than stdlib
+-------------------------------------------------------------
+File: y_number_simple_int.json (0.00 KB)
+Custom Implementation: 11.207µs
+Standard Library:     14.98µs
+Performance:          25.19% faster than stdlib
+-------------------------------------------------------------
+File: y_string_three-byte-utf-8.json (0.01 KB)
+Custom Implementation: 10.795µs
+Standard Library:     18.929µs
+Performance:          42.97% faster than stdlib
+-------------------------------------------------------------
+File: y_string_with_del_character.json (0.01 KB)
+Custom Implementation: 12.307µs
+Standard Library:     23.769µs
+Performance:          48.22% faster than stdlib
+-------------------------------------------------------------
+File: y_string_backslash_doublequotes.json (0.01 KB)
+Custom Implementation: 16.59µs
+Standard Library:     33.237µs
+Performance:          50.09% faster than stdlib
+-------------------------------------------------------------
+File: y_string_unicode_2.json (0.01 KB)
+Custom Implementation: 12.023µs
+Standard Library:     22.464µs
+Performance:          46.48% faster than stdlib
+-------------------------------------------------------------
+File: y_string_unicode_U+1FFFE_nonchar.json (0.02 KB)
+Custom Implementation: 19.515µs
+Standard Library:     29.315µs
+Performance:          33.43% faster than stdlib
+-------------------------------------------------------------
+File: y_structure_lonely_negative_real.json (0.00 KB)
+Custom Implementation: 8.808µs
+Standard Library:     13.059µs
+Performance:          32.55% faster than stdlib
+-------------------------------------------------------------
+File: y_number_real_capital_e.json (0.01 KB)
+Custom Implementation: 23.14µs
+Standard Library:     37.268µs
+Performance:          37.91% faster than stdlib
+-------------------------------------------------------------
+File: y_object_duplicated_key.json (0.02 KB)
+Custom Implementation: 8.959µs
+Standard Library:     13.348µs
+Performance:          32.88% faster than stdlib
+-------------------------------------------------------------
+File: y_object_duplicated_key_and_value.json (0.02 KB)
+Custom Implementation: 11.727µs
+Standard Library:     12.878µs
+Performance:          8.94% faster than stdlib
+-------------------------------------------------------------
+File: y_string_allowed_escapes.json (0.02 KB)
+Custom Implementation: 20.165µs
+Standard Library:     24.179µs
+Performance:          16.60% faster than stdlib
+-------------------------------------------------------------
+File: y_string_comments.json (0.02 KB)
+Custom Implementation: 16.027µs
+Standard Library:     26.404µs
+Performance:          39.30% faster than stdlib
+-------------------------------------------------------------
+File: y_string_u+2028_line_sep.json (0.01 KB)
+Custom Implementation: 15.032µs
+Standard Library:     37.621µs
+Performance:          60.04% faster than stdlib
+-------------------------------------------------------------
+File: y_string_uescaped_newline.json (0.02 KB)
+Custom Implementation: 11.343µs
+Standard Library:     17.497µs
+Performance:          35.17% faster than stdlib
+-------------------------------------------------------------
+File: y_string_utf8.json (0.01 KB)
+Custom Implementation: 25.473µs
+Standard Library:     34.389µs
+Performance:          25.93% faster than stdlib
+-------------------------------------------------------------
+File: y_array_empty-string.json (0.00 KB)
+Custom Implementation: 29.343µs
+Standard Library:     44.266µs
+Performance:          33.71% faster than stdlib
+-------------------------------------------------------------
+File: y_array_empty.json (0.00 KB)
+Custom Implementation: 20.811µs
+Standard Library:     41.087µs
+Performance:          49.35% faster than stdlib
+-------------------------------------------------------------
+File: y_array_with_trailing_space.json (0.00 KB)
+Custom Implementation: 25.834µs
+Standard Library:     36.893µs
+Performance:          29.98% faster than stdlib
+-------------------------------------------------------------
+File: y_number_after_space.json (0.00 KB)
+Custom Implementation: 16.723µs
+Standard Library:     40.013µs
+Performance:          58.21% faster than stdlib
+-------------------------------------------------------------
+File: y_structure_lonely_int.json (0.00 KB)
+Custom Implementation: 9.785µs
+Standard Library:     17.477µs
+Performance:          44.01% faster than stdlib
+-------------------------------------------------------------
+
+========================== Overall Statistics ==========================
+
+Total files processed:     95
+Total data processed:      1.16 KB
+Average performance:       32.73% faster than stdlib
+Total time (Custom):       1.777513ms
+Total time (Stdlib):       2.502484ms
+
+========================================================================
+Benchmark End: 2024-11-01 15:13:56
